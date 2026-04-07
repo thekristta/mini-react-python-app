@@ -3,12 +3,25 @@ from fastapi.staticfiles import StaticFiles
 import pandas as pd
 import os
 
+
+
 app = FastAPI()
 
 # 📦 Serve React build
-app.mount("/", StaticFiles(directory="../frontend/dist", html=True), name="static")
 
-FILE = "mydb.csv"
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+FILE = os.path.join(BASE_DIR, "mydb.csv")
+
+app.mount(
+    "/",
+    StaticFiles(directory=os.path.join(BASE_DIR, "../frontend/dist"), html=True),
+    name="static"
+)
+
+
+
+# FILE = "mydb.csv"
 
 # Ensure file exists
 if not os.path.exists(FILE):
